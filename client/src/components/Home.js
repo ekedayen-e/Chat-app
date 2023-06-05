@@ -10,9 +10,13 @@ function Home() {
   useEffect(() => {
     (
       async () => { 
+        try{
         const {data} = await axios.get('http://localhost:3001/user')
         //setName(data.name)
         setName(data.first_name)
+      } catch {
+        setNavigate(true)
+      }
       } 
     )();
   }, [])
