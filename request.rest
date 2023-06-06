@@ -18,11 +18,11 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3001/refresh
+GET http://localhost:3001/refresh
 
 ###
-GET http://localhost:3001/isUserAuth
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0uYW5nZWxvQGdtYWlsLmNvbSIsIm5hbWUiOiJNaWtlIiwiaWF0IjoxNjg1OTQ1MTY0LCJleHAiOjE2ODU5NDYwNjR9.pJkENH7sMxq9XNdZbH-ou3A1q0qM6tO2Z_86F5XjaGU
+GET http://localhost:3001/logout
 ###
+
 GET http://localhost:3001/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0uYW5nZWxvQGdtYWlsLmNvbSIsIm5hbWUiOiJNaWtlIiwiaWF0IjoxNjg1OTYwODE4LCJleHAiOjE2ODU5NjE3MTh9.aXCiZjfjNs4L8iDWdx6UGr2hYN31FXmOfCc4bKtZw_Q
