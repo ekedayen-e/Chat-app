@@ -2,10 +2,10 @@ POST http://localhost:3001/register
 Content-Type: application/json
 
 {
-    "first_name": "Mike",
-    "last_name": "Angelo",
-    "email": "m.angelo@gmail.com",
-    "password": "angelman"
+    "first_name": "Eruba",
+    "last_name": "Ekedayen",
+    "email": "eruba@e.com",
+    "password": "erubae"
 }
 
 ###
@@ -13,8 +13,8 @@ POST http://localhost:3001/login
 Content-Type: application/json
 
 {
-    "email": "m.angelo@gmail.com",
-    "password": "angelman"
+    "email": "erubae@e.com",
+    "password": "erubae"
 }
 
 ###
