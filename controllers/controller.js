@@ -66,7 +66,7 @@ exports.refresh = (req, res) => {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET,(err,decoded) => {
             if(err) { return res.status(401).send({message: "Unauthorized"})}
             else {
-            const accessToken = generateAccessToken({email: decoded.email})
+            const accessToken = generateAccessToken({email: decoded.email, name: decoded.name})
             return res.json({accessToken})
         }
         });
