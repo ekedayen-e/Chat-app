@@ -11,24 +11,9 @@ app.use(cookieparser())
 app.use(express.json())
 
 app.use(cors({
-    origin: "*",             //['http://localhost:3000', 'https://rom-net.onrender.com'],
-    credentials: true
+    origin: "https://rom-net.onrender.com",             //['http://localhost:3000', 'https://rom-net.onrender.com'],
+   // credentials: true
 }))
-
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*"); // the link of my front-end app on Netlify
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
-    );
-    /*res.setHeader('content-type', 'application/json');*/
-    next();
-  });
 
 
 app.use(routes)
