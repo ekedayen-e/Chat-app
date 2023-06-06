@@ -1,49 +1,90 @@
 import React from 'react'
-import { useState } from 'react'
-import axios from 'axios'
-import {Navigate} from 'react-router-dom'
+import { useAuth } from '../context/AuthProvider'
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 
-function Login() {
-    const[email, setEmail] = useState('');
-    const[password, setPassword] = useState('')
-    const [navigate, setNavigate] = useState(false)
+const Login = () => {
+    const { setAuth } = useAuth();
 
-    const submit = async (e) => {
-        e.preventDefault()
-        console.log(email, password)
-        const {data} = await axios.post('http://localhost:3001/login', {
-            email: email,
-            password: password
-        }, {withCredentials: true})
-        axios.defaults.headers.common['Authorization'] = `Bearer ${data['accessToken']}`
+    const navigate = useNavigate();
 
-        setNavigate(true)
-    }
-    if(navigate) {
-        return <Navigate to='/' />
-    }
+   // const [first_name, setFname] = useState('');
+    //const [last_name, setLname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('/login',
+                {email, password},
+                {withCredentials: true})
+                setAuth({...response.data})
+                //setFname('')
+                //setLname('')
+                setEmail('')
+                setPassword('')
+                navigate('/', { replace: true });
+            } catch {
+                console.log("Invalid Information")
+            }
+        }
+
   return (
-    <main className="form-signin">
-        <form onSubmit={submit}>
-            <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-
-            <div className="form-floating">
-                <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com"
-                    onChange={e => setEmail(e.target.value)}
+    <section>
+            <h1>Sign In</h1>
+            <form onSubmit={handleSubmit}>
+            {/*
+                <label htmlFor="fname">First Name:</label>
+                <input
+                    type="text"
+                    id="fname"
+                    autoComplete="off"
+                    onChange={(e) => setFname(e.target.value)}
+                    value={first_name}
+                    required
                 />
-                <label htmlFor="floatingInput">Email address</label>
-            </div>
 
-            <div className="form-floating">
-                <input type="password" className="form-control" id="floatingPassword" placeholder="Password"
-                onChange={e => setPassword(e.target.value)}
+<label htmlFor="lname">Last Name:</label>
+                <input
+                    type="text"
+                    id="lname"
+                    autoComplete="off"
+                    onChange={(e) => setLname(e.target.value)}
+                    value={last_name}
+                    required
                 />
-                <label htmlFor="floatingPassword">Password</label>
-            </div>
+*/}
+<label htmlFor="email">Email:</label>
+                <input
+                    type="text"
+                    id="emial"
+                    autoComplete="off"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    required
+                />
 
-            <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-        </form>
-    </main>
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    required
+                />
+                <button>Sign In</button>
+            </form>
+            <p>
+                Need an Account?<br />
+                <span className="line">
+                    <Link to="/register">Sign Up</Link>
+                </span>
+            </p>
+        </section>
+
   )
 }
 

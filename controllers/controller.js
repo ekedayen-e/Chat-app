@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt')
 
 
 exports.logout = async(req, res) => {
-    res.cookie('refreshToken', '', {maxAge: 0});
+    res.clearCookie('refreshToken', {httpOnly: true,
+        sameSite: 'None', secure: false})
+    //res.cookie('refreshToken', '', {maxAge: 0});
     res.send({message: 'Logged out'})
 
 }
@@ -35,13 +37,13 @@ exports.login = async (req,res) => {
 
     try{
         if(await bcrypt.compare(req.body.password, result.password)) {
-            const user = {email: req.body.email, name: result.first_name}
+            const {id, first_name, last_name, email} = result
+            const user = {email: email}
             const accessToken = generateAccessToken(user)
             const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1d'})
             res.cookie('refreshToken', refreshToken, {httpOnly: true,
-                /*sameSite: 'None', secure: false,*/
+                sameSite: 'None', secure: false,
                 maxAge: 24 * 60 * 60 * 1000})
-            //req.info = result;
             res.json({accessToken})
 
         } else {
@@ -64,7 +66,7 @@ exports.refresh = (req, res) => {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET,(err,decoded) => {
             if(err) { return res.status(401).send({message: "Unauthorized"})}
             else {
-            const accessToken = generateAccessToken({email: decoded.email, name: decoded.name})
+            const accessToken = generateAccessToken({email: decoded.email})
             return res.json({accessToken})
         }
         });
@@ -91,5 +93,4 @@ exports.user = async (req, res) => {
     )
     let result = user.rows[0]
     res.json(result)
-    //res.json(req.userId);
 }

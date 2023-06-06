@@ -13,7 +13,7 @@ router.get('/register', (req, res, next) => {
 router.post('/register', control.register) 
 router.post('/login', control.login) 
 router.get('/user', control.authenticateToken, control.user)
-router.post('/refresh', control.refresh)
-router.post('/logout', control.logout)
+router.get('/refresh', control.refresh)
+router.get('/logout', control.logout)
 
 module.exports = router

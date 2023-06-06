@@ -1,41 +1,25 @@
-import axios from 'axios';
 import React from 'react'
-import {useEffect, useState } from 'react'
-import {Navigate} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthProvider'
 
-function Home() {
-  const [name, setName] = useState('')
-  const [navigate, setNavigate] = useState(false)
+const Home = () => {
+    const {setAuth} = useAuth();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    (
-      async () => { 
-        try{
-        const {data} = await axios.get('http://localhost:3001/user')
-        //setName(data.name)
-        setName(data.first_name)
-      } catch {
-        setNavigate(true)
-      }
-      } 
-    )();
-  }, [])
-
-  const logout = async() => {
-    await axios.post('http://localhost:3001/logout', {}, {withCredentials: true})
-
-    setNavigate(true)
-  }
-
-  if(navigate) {
-    return <Navigate to="/login" />
-  }
+    const logout = async () => {
+        // if used in more components, this should be in context 
+        // axios to /logout endpoint 
+        //await axios.get('/logout', {withCredentials: true})
+        setAuth({});
+        navigate('/login');
+    }
   return (
-    <div className='form-signin mt-5 text-center'>
-      <h3>Welcome, {name}</h3>
-
-      <button onClick={logout} className='btn btn-lg btn-primary'>Logout</button>
-    </div>
+    <section>
+            <h1>Home</h1>
+            <br />
+            <p>You are logged in!</p>
+            <button onClick={logout}>Sign Out</button>
+    </section>
   )
 }
 
