@@ -18,8 +18,11 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('/login',
+            const response = await axios.post('/login', 
                 {email, password},
+                {headers: {
+                    "Access-Control-Allow-Origin": "*",
+                }},
                 {withCredentials: true})
                 console.log(response)
                 setAuth({...response.data})
