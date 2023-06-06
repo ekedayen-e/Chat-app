@@ -10,7 +10,7 @@ const path = require('path')
 app.use(cookieparser())
 app.use(express.json())
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://rom-net.onrender.com'],
+    origin: "*",//['http://localhost:3000', 'https://rom-net.onrender.com'],
     credentials: true
 }))
 app.use(routes)
