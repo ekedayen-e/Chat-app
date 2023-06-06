@@ -6,6 +6,7 @@ const routes = require("./routes/api")
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieparser = require('cookie-parser');
+const path = require('path')
 app.use(cookieparser())
 app.use(express.json())
 app.use(cors({
