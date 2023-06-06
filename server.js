@@ -14,7 +14,7 @@ app.use(cors({
     origin: "*",             //['http://localhost:3000', 'https://rom-net.onrender.com'],
     credentials: true
 }))
-
+/*
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*"); // the link of my front-end app on Netlify
     res.setHeader(
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
     res.setHeader('content-type', 'application/json');
     next();
   });
-
+*/
 
 
 app.use(routes)
