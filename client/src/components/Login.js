@@ -21,6 +21,7 @@ const Login = () => {
             const response = await axios.post('/login',
                 {email, password},
                 {withCredentials: true})
+                console.log(response)
                 setAuth({...response.data})
                 //setFname('')
                 //setLname('')
