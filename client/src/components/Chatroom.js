@@ -1,8 +1,9 @@
 import React from 'react'
 import { useChat } from '../context/ChatProvider'
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect, useRef, useCallback} from 'react'
 import axios from '../api/axios'
 import { useAuth } from '../context/AuthProvider'
+import { get } from 'mongoose'
 
 const Chatroom = () => {
     const {auth} = useAuth();
@@ -43,11 +44,11 @@ const Chatroom = () => {
     autoScroll.current.scrollIntoView({behavior: "smooth"})
     }
 
-    const getPrevChats = async() => {
+    const getPrevChats = useCallback( async() => {
         let source = chat.id
         let response = await axios.get(`/get-messages/${source}`, {withCredentials: true})
         setMessages(response.data)
-    }
+    }, [messages])
 
     const make = (mes, i) => {
         let col = 'red';
@@ -62,7 +63,10 @@ const Chatroom = () => {
     }
 
     useEffect(() => {
+        const interval = setInterval(() => {
         getPrevChats();
+        }, 1000);
+        return () => clearInterval(interval)
     }, [])
 
   return (
