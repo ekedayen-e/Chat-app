@@ -2,10 +2,10 @@ POST http://localhost:3001/register
 Content-Type: application/json
 
 {
-    "first_name": "Test",
-    "last_name": "Test",
-    "email": "test@test.com",
-    "password": "test"
+    "first_name": "Atarhe",
+    "last_name": "Ekedayen",
+    "email": "atarhe@e.com",
+    "password": "atarhee"
 }
 
 ###
