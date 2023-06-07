@@ -2,10 +2,10 @@ POST http://localhost:3001/register
 Content-Type: application/json
 
 {
-    "first_name": "Eruba",
-    "last_name": "Ekedayen",
-    "email": "eruba@e.com",
-    "password": "erubae"
+    "first_name": "Test",
+    "last_name": "Test",
+    "email": "test@test.com",
+    "password": "test"
 }
 
 ###
@@ -23,6 +23,24 @@ GET http://localhost:3001/refresh
 ###
 GET http://localhost:3001/logout
 ###
+POST http://localhost:3001/create-chat
+Content-Type: application/json
 
-GET http://localhost:3001/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0uYW5nZWxvQGdtYWlsLmNvbSIsIm5hbWUiOiJNaWtlIiwiaWF0IjoxNjg1OTYwODE4LCJleHAiOjE2ODU5NjE3MTh9.aXCiZjfjNs4L8iDWdx6UGr2hYN31FXmOfCc4bKtZw_Q
+{
+    "origin": "test@test.com",
+    "recipient": "eruba@e.com"
+}
+
+###
+GET http://localhost:3001/get-chats/eruba@e.com
+###
+POST http://localhost:3001/send
+Content-Type: application/json
+
+{
+    "id": "89c777b9-6061-49c2-a432-a425ff9154d6",
+    "topic": "Hello test",
+    "sent_by": "eruba@e.com"
+}
+###
+GET http://localhost:3001/get-messages/89c777b9-6061-49c2-a432-a425ff9154d6

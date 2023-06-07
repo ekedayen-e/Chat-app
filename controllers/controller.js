@@ -1,6 +1,7 @@
 const db = require('../config/db')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const { uuid } = require('uuidv4');
 
 
 exports.logout = async(req, res) => {
@@ -82,6 +83,45 @@ exports.authenticateToken = (req,res,next) => {
         req.userId = decoded
         next();
     })
+}
+
+exports.createChat = async(req, res) => {
+    let origin = req.body.origin;
+    let recipient = req.body.recipient;
+    let id = uuid();
+    console.log(origin)
+    const result = await db.qchats(
+        "INSERT INTO chats (id, origin, recipient) VALUES ($1, $2, $3)",
+        [id, origin, recipient]
+    )
+    res.json({id})
+}
+
+exports.getChats = async(req, res) => {
+    let origin = req.params.origin
+    const result = await db.qchats(
+        `SELECT * FROM chats WHERE origin= $1 OR recipient= $1`, [origin]
+    )
+    return res.json(result.rows)
+}
+
+exports.sendMessage = async(req, res) => {
+    let id = req.body.id
+    let topic = req.body.topic
+    let sent_by = req.body.sent_by
+    const result = await db.qchats(
+        "INSERT INTO messages (id, topic, sent_by) VALUES ($1, $2, $3)",
+        [id, topic, sent_by]
+    )
+    res.json({messages: 'Message sent sucessfully'})
+}
+
+exports.getMessages = async(req, res) => {
+    let id = req.params.id
+    const result = await db.qchats(
+        `SELECT * FROM messages WHERE id= $1`, [id]
+    )
+    return res.json(result.rows)
 }
 
 exports.user = async (req, res) => {

@@ -15,5 +15,9 @@ router.post('/login', control.login)
 router.get('/user', control.authenticateToken, control.user)
 router.get('/refresh', control.refresh)
 router.get('/logout', control.logout)
+router.post('/create-chat', control.createChat)
+router.get('/get-chats/:origin', control.getChats)
+router.post('/send', control.sendMessage)
+router.get('/get-messages/:id', control.getMessages)
 
 module.exports = router

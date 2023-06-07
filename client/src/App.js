@@ -8,9 +8,12 @@ import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersistLogin';
+import { ChatProvider } from './context/ChatProvider';
+import Chatroom from './components/Chatroom';
 
 function App() {
   return (
+    <ChatProvider>
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -23,6 +26,7 @@ function App() {
         <Route element={<PersistLogin />}>
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
+          <Route path="/chat" element={<Chatroom />} />
         </Route>
         </Route> 
 
@@ -31,6 +35,7 @@ function App() {
       </Route>
     </Routes>
     </BrowserRouter>
+    </ChatProvider>
   );
 }
 
