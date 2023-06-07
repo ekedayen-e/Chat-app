@@ -3,7 +3,6 @@ import { useChat } from '../context/ChatProvider'
 import {useState, useEffect, useRef, useCallback} from 'react'
 import axios from '../api/axios'
 import { useAuth } from '../context/AuthProvider'
-import { get } from 'mongoose'
 
 const Chatroom = () => {
     const {auth} = useAuth();
