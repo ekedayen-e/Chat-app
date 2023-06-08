@@ -6,6 +6,7 @@ const { uuid } = require('uuidv4');
 
 exports.logout = async(req, res) => {
     res.cookie('refreshToken', '', {maxAge: 0});
+    res.cookie('chatid', '', {maxAge: 0})
     res.send({message: 'Logged out'})
 
 }
@@ -60,13 +61,17 @@ function generateAccessToken(user) {
 }
 
 exports.refresh = (req, res) => {
+    let chatid;
     if(req.cookies?.refreshToken) {
+        if(req.cookies?.chatid) {
+            chatid = req.cookies.chatid
+        }
         const refreshToken = req.cookies.refreshToken;
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET,(err,decoded) => {
             if(err) { return res.status(401).send({message: "Unauthorized"})}
             else {
             const accessToken = generateAccessToken({email: decoded.email, name: decoded.name})
-            return res.json({email: decoded.email, name: decoded.name, accessToken: accessToken})
+            return res.json({email: decoded.email, name: decoded.name, accessToken: accessToken, chatid: chatid})
         }
         });
     } else {
@@ -97,6 +102,31 @@ exports.createChat = async(req, res) => {
     res.json({id})
 }
 
+exports.storeChat = (req, res) => {
+    let id = req.params.id
+    res.cookie('chatid', id, {httpOnly: true,
+        /*sameSite: 'None', secure: false,*/
+        maxAge: 24 * 60 * 60 * 1000})
+    return res.json({message: 'Chat stored!'})
+}
+
+exports.deleteChat = async(req,res) => {
+    let id = req.params.id
+    res.cookie('chatid', '', {maxAge: 0})
+
+    const other = await db.qchats(
+        "DELETE FROM messages WHERE id = $1",
+        [id]
+    )
+
+    const result = await db.qchats(
+        "DELETE FROM chats WHERE id = $1",
+        [id]
+    )
+    
+    res.json({message: 'Chat succesfully deleted'})
+}
+
 exports.getChats = async(req, res) => {
     let origin = req.params.origin
     const result = await db.qchats(
@@ -122,13 +152,4 @@ exports.getMessages = async(req, res) => {
         `SELECT * FROM messages WHERE id= $1`, [id]
     )
     return res.json(result.rows)
-}
-
-exports.user = async (req, res) => {
-    let email = req.userId.email
-    const user = await db.query(
-        `SELECT * FROM users WHERE email= $1`, [email]
-    )
-    let result = user.rows[0]
-    res.json(result)
 }

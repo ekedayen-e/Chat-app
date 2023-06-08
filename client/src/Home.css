@@ -1,0 +1,8 @@
+.chatlink {
+    text-decoration: none;
+    padding: 0.5%;
+}
+.chatlink:visited {
+    text-decoration: none;
+    color: orange;
+}

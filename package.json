@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.11.0",
     "react-router-dom": "^6.11.2",
+    "socket.io": "^4.6.2",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

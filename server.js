@@ -9,6 +9,32 @@ const cookieparser = require('cookie-parser');
 const path = require('path')
 app.use(cookieparser())
 app.use(express.json())
+const http = require('http')
+const {Server} = require('socket.io')
+const server = http.createServer(app)
+
+const io = new Server(server, {
+    cors: {
+        origin: true,
+        credentials: true,
+        methods: ['GET', 'POST', 'DELETE']
+    }
+})
+
+io.on('connection', (socket) => {
+    socket.on('message', (data) => {
+        io.emit('messageResponse', data)
+      });
+})
+
+/*io.on('message', (data) => {
+    console.log('message received')
+    io.emit('messageResponse', data)
+})
+*/
+
+
+
 const corsOptions = {
     origin: true,
     credentials: true,
@@ -32,15 +58,17 @@ app.use(function(req, res, next) {
   });
 
 app.use(routes)
-
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
 app.use(express.static('client/build'));
 app.get('*', (req, res) => {
 res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
+}
 
 /*app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 */
 
-app.listen(PORT, '0.0.0.0', function() {console.log(`Server running on port ${PORT}`)})
+server.listen(PORT, '0.0.0.0', function() {})
+

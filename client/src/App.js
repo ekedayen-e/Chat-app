@@ -10,6 +10,10 @@ import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersistLogin';
 import { ChatProvider } from './context/ChatProvider';
 import Chatroom from './components/Chatroom';
+import io from 'socket.io-client'
+
+const connection = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ? 'https://rom-net.onrender.com/' : 'http://localhost:3001'
+const socket = io.connect(connection)
 
 function App() {
   return (
@@ -26,7 +30,7 @@ function App() {
         <Route element={<PersistLogin />}>
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chatroom />} />
+          <Route path="/chat" element={<Chatroom socket={socket}/>} />
         </Route>
         </Route> 
 

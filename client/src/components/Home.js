@@ -5,6 +5,8 @@ import useLogout from '../hooks/useLogout'
 import {useState, useEffect} from 'react'
 import axios from '../api/axios'
 import { useChat } from '../context/ChatProvider'
+import '../Home.css'
+
 
 const Home = () => {
     const navigate = useNavigate();
@@ -58,6 +60,11 @@ const Home = () => {
       setConversations(response.data)
     }
 
+    const storeInfo = async(id) => {
+      setChat(id);
+      await axios.get(`/chat-cookies/${id.id}`, {withCredentials: true})
+      //console.log(response)
+    }
 
     useEffect(() => {
       getChats();
@@ -69,20 +76,20 @@ const Home = () => {
             <br />
             <p>Welcome, {auth.name}!</p>
             <form onSubmit={createChat}>
-            <label>Create A Chat:</label>
-              <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder='exampe@ex.com'></input>
-              <button type="submit">Add</button>
+            <label>Create A Chat: </label>
+              <input style={{backgroundColor:'gray', border: '1px solid white', color:'white'}} size='40' type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder='exampe@ex.com'></input>
+              <button style={{cursor: 'pointer', backgroundColor: 'black', color: 'white'}} type="submit">Add</button>
             </form>
             <div>
-              <ul>
+              <ul style={{listStyle: 'none'}}>
               {conversations.map((conversation) => {
                   return (
-                    <Link onClick={() => setChat({id: conversation.id})} to="/chat"><li key={conversation.id}>{conversation.recipient == auth.email ? conversation.origin : conversation.recipient}</li></Link> 
+                    <Link className="chatlink" onClick={async() => storeInfo({id: conversation.id})} to="/chat"><li className="chatlink" key={conversation.id}>{conversation.recipient == auth.email ? conversation.origin : conversation.recipient}</li></Link> 
                   )
                 })}
               </ul>
             </div>
-            <button onClick={signOut}>Sign Out</button>
+            <button style={{cursor:'pointer', backgroundColor: 'black', color: 'white'}} onClick={signOut}>Sign Out</button>
 
     </section>
   )

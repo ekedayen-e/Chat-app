@@ -1,0 +1,12 @@
+.chatlink2 {
+    padding: 0.5%;
+    color: orange;
+}
+.chatlink2:visited {
+    text-decoration: none;
+    color: orange;
+}
+#plabel {
+    margin-left: 5%;
+}
+

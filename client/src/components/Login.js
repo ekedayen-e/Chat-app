@@ -3,14 +3,11 @@ import { useAuth } from '../context/AuthProvider'
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
+import '../Login.css'
 
 const Login = () => {
     const { setAuth } = useAuth();
-
     const navigate = useNavigate();
-
-   // const [first_name, setFname] = useState('');
-    //const [last_name, setLname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -23,8 +20,6 @@ const Login = () => {
                 {withCredentials: true})
                 console.log(response)
                 setAuth({...response.data})
-                //setFname('')
-                //setLname('')
                 setEmail('')
                 setPassword('')
                 navigate('/', { replace: true });
@@ -37,51 +32,32 @@ const Login = () => {
     <section>
             <h1>Sign In</h1>
             <form onSubmit={handleSubmit}>
-            {/*
-                <label htmlFor="fname">First Name:</label>
-                <input
+<label htmlFor="email">Email:  </label>
+                <input style={{backgroundColor:'gray', border: '1px solid white', color:'white'}} size='30'
                     type="text"
-                    id="fname"
-                    autoComplete="off"
-                    onChange={(e) => setFname(e.target.value)}
-                    value={first_name}
-                    required
-                />
-
-<label htmlFor="lname">Last Name:</label>
-                <input
-                    type="text"
-                    id="lname"
-                    autoComplete="off"
-                    onChange={(e) => setLname(e.target.value)}
-                    value={last_name}
-                    required
-                />
-*/}
-<label htmlFor="email">Email:</label>
-                <input
-                    type="text"
-                    id="emial"
+                    id="email"
+                    className='form-input'
                     autoComplete="off"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     required
                 />
-
-                <label htmlFor="password">Password:</label>
-                <input
+ 
+                <label id='plabel' htmlFor="password">Password:  </label>
+                <input style={{backgroundColor:'gray', border: '1px solid white', color:'white'}} size='30'
                     type="password"
+                    className='form-input'
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required
                 />
-                <button>Sign In</button>
+                <button  style={{cursor: 'pointer', margin:'1%' ,backgroundColor: 'black', color: 'white'}}>Sign In</button>
             </form>
-            <p>
+            <p style={{color: 'orange'}}>
                 Need an Account?<br />
                 <span className="line">
-                    <Link to="/register">Sign Up</Link>
+                    <Link cursor='pointer' className="chatlink2" to="/register">Sign Up</Link>
                 </span>
             </p>
         </section>

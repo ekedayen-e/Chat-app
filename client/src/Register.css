@@ -1,0 +1,22 @@
+#elabel {
+    margin-left: 2.5%;
+}
+
+#pdlabel {
+    margin-left: 0.7%;
+}
+
+#fnlbabel {
+    margin-left: -0.13%;
+}
+
+.form-input {
+    display: inline-block;
+    text-align: left;
+    width: 25%;
+}
+
+.rlabel {
+    text-align: left;
+    width: 25%;
+}
